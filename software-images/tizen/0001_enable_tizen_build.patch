@@ -1,0 +1,28 @@
+diff --git a/tensorflow/lite/tools/make/Makefile b/tensorflow/lite/tools/make/Makefile
+index 73c50d3..dcc758a 100644
+--- a/tensorflow/lite/tools/make/Makefile
++++ b/tensorflow/lite/tools/make/Makefile
+@@ -52,6 +52,9 @@ LIBS := \
+ -lm \
+ -lz
+ 
++# Setup the sys root used for cross compilation
++TARGET_TOOLCHAIN_SYSROOT := /opt/toolchains/sysroot-glibc-linaro-2.23-2016.11-arm-linux-gnueabi/
++
+ # There are no rules for compiling objects for the host system (since we don't
+ # generate things like the protobuf compiler that require that), so all of
+ # these settings are for the target compiler.
+@@ -64,6 +67,13 @@ ARFLAGS := -r
+ TARGET_TOOLCHAIN_PREFIX :=
+ CC_PREFIX :=
+ 
++ifeq ($(BUILD_TIZEN),1)
++CXXFLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv4
++CXXFLAGS += --sysroot=${TARGET_TOOLCHAIN_SYSROOT}
++LDOPTS += --sysroot=${TARGET_TOOLCHAIN_SYSROOT}
++TARGET_TOOLCHAIN_PREFIX := arm-linux-gnueabi-
++endif
++
+ ifeq ($(HOST_OS),windows)
+ CXXFLAGS += -fext-numeric-literals -D__LITTLE_ENDIAN__
+ endif
