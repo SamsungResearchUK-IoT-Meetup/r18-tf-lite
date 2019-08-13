@@ -1,0 +1,19 @@
+--- Makefile.actual	2019-08-13 10:27:15.765033620 +0100
++++ Makefile	2019-08-13 10:27:29.273077526 +0100
+@@ -60,6 +60,16 @@
+ TARGET_TOOLCHAIN_PREFIX :=
+ CC_PREFIX :=
+ 
++# Set this to the sysroot dir. 
++TARGET_TOOLCHAIN_SYSROOT := /home/SERILOCAL/s.ishtiaq/work/R18/x-compile/sysroot-glibc-linaro-2.23-2016.11-arm-linux-gnueabi/
++# Addition flags for cross compilation to R18
++ifeq ($(BUILD_TIZEN),1)
++CXXFLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv4 
++CXXFLAGS += --sysroot=${TARGET_TOOLCHAIN_SYSROOT}
++LDOPTS += --sysroot=${TARGET_TOOLCHAIN_SYSROOT}/lib
++TARGET_TOOLCHAIN_PREFIX := arm-linux-gnueabi-
++endif
++
+ # This library is the main target for this makefile. It will contain a minimal
+ # runtime that can be linked in to other programs.
+ LIB_NAME := libtensorflow-lite.a
