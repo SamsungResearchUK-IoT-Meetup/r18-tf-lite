@@ -3,36 +3,6 @@ from microWebSrv import MicroWebSrv
 
 # ----------------------------------------------------------------------------
 
-
-@MicroWebSrv.route('/r18')
-def _httpHandlerTestGet(httpClient, httpResponse) :
-	content = """\
-	<!DOCTYPE html>
-	<html lang=en>
-        <head>
-        	<meta charset="UTF-8" />
-            <title>R18 Test</title>
-        </head>
-        <body>
-            <h1>R18 Test</h1>
-            Client IP address = %s
-            <br />
-            <p> Hit the start button to record voice. The R18 will record 5 seconds of voice and decode</p>
-			<form action="/test" method="post" accept-charset="ISO-8859-1">
-				<input type="submit" value="Submit">
-			</form>
-        </body>
-    </html>
-	""" % httpClient.GetIPAddr()
-	httpResponse.WriteResponseOk( headers		 = None,
-								  contentType	 = "text/html",
-								  contentCharset = "UTF-8",
-								  content 		 = content )
-
-
-
-
-
 @MicroWebSrv.route('/test')
 def _httpHandlerTestGet(httpClient, httpResponse) :
 	content = """\
@@ -146,7 +116,6 @@ srv = MicroWebSrv(webPath='www/')
 srv.MaxWebSocketRecvLen     = 256
 srv.WebSocketThreaded		= False
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
-print("*** Starting web server ***")
-srv.Start(threaded=True)
+srv.Start()
 
 # ----------------------------------------------------------------------------
