@@ -12,3 +12,5 @@ To run the microweb server, from the /micro_server directory do:
    Starting threaded process...
    Press enter to stop the web server
 ```   
+
+The web server will be stopped cleanly by hitting enter in the terminal.
