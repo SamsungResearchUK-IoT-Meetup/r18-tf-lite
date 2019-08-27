@@ -210,15 +210,18 @@ class MicroWebSrv :
 
     def Start(self, threaded=False):
         if not self._started :
+            print("Server process starting...")
             self._server = socket.socket()
             self._server.setsockopt( socket.SOL_SOCKET,
                                      socket.SO_REUSEADDR,
                                      1 )
             self._server.bind(self._srvAddr)
             self._server.listen(1)
-            if threaded :
+            if threaded:
+                print("Starting threaded process...")
                 MicroWebSrv._startThread(self._serverProcess)
             else :
+                print("Starting single thread process...")
                 self._serverProcess()
 
     # ----------------------------------------------------------------------------

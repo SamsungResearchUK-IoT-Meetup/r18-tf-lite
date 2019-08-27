@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 from microWebSrv import MicroWebSrv
 
 # ----------------------------------------------------------------------------
@@ -148,5 +148,8 @@ srv.WebSocketThreaded		= False
 srv.AcceptWebSocketCallback = _acceptWebSocketCallback
 print("*** Starting web server ***")
 srv.Start(threaded=True)
+
+raw_input("Press enter to stop the web server")
+srv.Stop()
 
 # ----------------------------------------------------------------------------
