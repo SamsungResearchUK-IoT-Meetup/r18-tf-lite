@@ -10,7 +10,7 @@ import datetime
 # ----------------------------------------------------------------------------
 
 record_command = 'parecord --rate=16000 --channels=1 /home/nherriot/test.wav'			# Used for recording voice from pluseaudio
-record_process = None
+rec_proc = None
 # ----------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------
@@ -22,22 +22,25 @@ def record():
     print("*** Creating the record process ***")
     record_process = subprocess.Popen(record_command, shell=True)
     print("Record process PID is: {}".format(record_process.pid))
-    #print("Sleeping for 10 seconds...")
-    #time.sleep(10)
-    #print("Stopping the record process.")
+    return record_process
 
 
-def record_stop():
+def record_stop(record_process):
     os.kill(record_process.pid, signal.SIGINT)
     os.kill((record_process.pid + 1), signal.SIGINT)
 
     if record_process.poll() is None:
         os.kill(record_process.pid, signal.SIGTERM)
         print("Process is not accepting SIGINT, now trying to Terminate the process")
-        time.sleep(2)
+        time.sleep(1)
     if record_process.poll() is None:  # Force kill if process is still alive
         print("Process is not accepting SIGTERM, now trying to Kill the process")
         os.kill(record_process.pid, signal.SIGKILL)
+
+
+def decode_audio():
+    return "Testing testing one two three"
+
 
 # ----------------------------------------------------------------------------
 
@@ -71,7 +74,7 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
 
 @MicroWebSrv.route('/r18', 'POST')
 def _httpHandlerTestPost(httpClient, httpResponse) :
-    print("\NServer recieving HTTP: r18(POST)")
+    print("\nServer recieving HTTP: r18(POST)")
     formData  = httpClient.ReadRequestPostedFormData()
 
     content   = """\
@@ -85,7 +88,7 @@ def _httpHandlerTestPost(httpClient, httpResponse) :
             <h1>R18 Test</h1>
             <p> Recording started...</p>
             <p> Please hit the stop button to stop recording and translate your speech to text.
-            <form action="/r18-decode" method="post" accept-charset="ISO-8859-1">
+            <form action="/r18-decode" method="get" accept-charset="ISO-8859-1">
                 <input type="submit" value="Submit">
             </form>
             
@@ -97,7 +100,41 @@ def _httpHandlerTestPost(httpClient, httpResponse) :
                                   contentCharset = "UTF-8",
                                   content 		 = content )
     # Now record the audio
-    record()
+    global rec_proc
+    rec_proc = record()
+
+
+@MicroWebSrv.route('/r18-decode')
+def _httpHandlerTestGet(httpClient, httpResponse) :
+    # Stop recording the audio file immediately before processing the http request
+    print("Stopping the record of audio")
+    record_stop(rec_proc)
+
+    content = """\
+    <!DOCTYPE html>
+    <html lang=en>
+        <head>
+            <meta charset="UTF-8" />
+            <title>R18 Decode</title>
+        </head>
+        <body>
+            <h1>R18 Decode</h1>
+            The Audio decoded to text is:  %s
+            <br />
+            <p>To decode another audio file please select the start again button</p>
+            <form action="/r18" method="get" accept-charset="ISO-8859-1">
+                <input type="submit" value="Submit">
+            </form>
+        </body>
+    </html>
+    """ % decode_audio()
+    httpResponse.WriteResponseOk( headers		 = None,
+                                  contentType	 = "text/html",
+                                  contentCharset = "UTF-8",
+                                  content 		 = content )
+
+
+
 
 
 @MicroWebSrv.route('/test')
