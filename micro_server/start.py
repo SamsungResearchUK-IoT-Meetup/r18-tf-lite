@@ -58,9 +58,9 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
             <h1>R18 Test</h1>
             Client IP address = %s
             <br />
-            <p> Hit the start button to record voice. The R18 will record 5 seconds of voice and decode</p>
+            <p> Hit the 'record' button to record voice. The R18 will start recording</p>
             <form action="/r18" method="post" accept-charset="ISO-8859-1">
-                <input type="submit" value="Submit">
+                <input type="submit" value="Record">
             </form>
         </body>
     </html>
@@ -87,9 +87,9 @@ def _httpHandlerTestPost(httpClient, httpResponse) :
         <body>
             <h1>R18 Test</h1>
             <p> Recording started...</p>
-            <p> Please hit the stop button to stop recording and translate your speech to text.
+            <p> Please hit the 'Stop Recording' button to stop recording and translate your speech to text.
             <form action="/r18-decode" method="get" accept-charset="ISO-8859-1">
-                <input type="submit" value="Submit">
+                <input type="submit" value="Stop Recording">
             </form>
             
         </body>
@@ -119,11 +119,12 @@ def _httpHandlerTestGet(httpClient, httpResponse) :
         </head>
         <body>
             <h1>R18 Decode</h1>
-            The Audio decoded to text is:  %s
+            The Audio decoded to text is:  
             <br />
+            <p style="font-weight: bold"> %s </p>
             <p>To decode another audio file please select the start again button</p>
             <form action="/r18" method="get" accept-charset="ISO-8859-1">
-                <input type="submit" value="Submit">
+                <input type="submit" value="Start Again">
             </form>
         </body>
     </html>
