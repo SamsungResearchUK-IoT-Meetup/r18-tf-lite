@@ -28,7 +28,6 @@ Client IP address = 192.168.110.138
 
 Hit the 'record' button to record voice. The R18 will start recording
 
-```html
 <html lang=en>
         <head>
             <meta charset="UTF-8" />
@@ -44,4 +43,3 @@ Hit the 'record' button to record voice. The R18 will start recording
             </form>
         </body>
     </html>
-```
