@@ -22,3 +22,26 @@ To view the web server go to your local IP address on port 8000 on page /r18 or 
 ```
 
 You will be prested with a simple web interface to the board to record sound.
+
+R18 Test
+Client IP address = 192.168.110.138
+
+Hit the 'record' button to record voice. The R18 will start recording
+
+```html
+<html lang=en>
+        <head>
+            <meta charset="UTF-8" />
+            <title>R18 Test</title>
+        </head>
+        <body>
+            <h1>R18 Test</h1>
+            Client IP address = 192.168.110.138
+            <br />
+            <p> Hit the 'record' button to record voice. The R18 will start recording</p>
+            <form action="/r18" method="post" accept-charset="ISO-8859-1">
+                <input type="submit" value="Record">
+            </form>
+        </body>
+    </html>
+```
