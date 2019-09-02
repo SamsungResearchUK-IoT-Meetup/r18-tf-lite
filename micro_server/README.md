@@ -14,3 +14,11 @@ To run the microweb server, from the /micro_server directory do:
 ```   
 
 The web server will be stopped cleanly by hitting enter in the terminal.
+
+To view the web server go to your local IP address on port 8000 on page /r18 or if you are running it on the board, go to the local IP of the board. eg..
+
+```bash
+   http://192.168.1.43:8000/r18
+```
+
+You will be prested with a simple web interface to the board to record sound.
